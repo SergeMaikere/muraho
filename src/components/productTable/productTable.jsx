@@ -5,16 +5,41 @@ import Table from 'react-bootstrap/Table';
 
 class ProductTable extends React.Component {
 	
+
+	constructor(props) {
+		super(props);
+		this.sortProducts = this.sortProducts.bind(this);
+		this.createRows = this.createRows.bind(this);
+	}
+
+	sortProducts (products) {
+		const direction = this.props.sort.direction;
+		const by = this.props.sort.by;
+		if (direction == 'ascending' && by == 'price') products.sort( (a, b) => Number(a.price) - Number(b.price) );
+		if (direction == 'descending' && by == 'price') products.sort( (a, b) => Number(b.price) - Number(a.price) );
+		if (direction == 'ascending' && by == 'name') products.sort( (a, b) => a.name > b.name ? 1 : (a.name < b.name ? -1 : 0) );
+		if (direction == 'descending' && by == 'name') products.sort( (a, b) => a.name < b.name ? 1 : (a.name > b.name ? -1 : 0) );
+		return products;
+	}
+
+	createRows (products) {
+		return products.map( 
+			product => <ProductTableRow 
+							productTableRowClickHandler={this.props.productTableRowClickHandler} 
+							product={product} key={product.id}>
+						</ProductTableRow>
+		) 
+	}
+
 	render() {
 
-		const rows = this.props.products.map( product => <ProductTableRow productTableRowClickHandler={this.props.productTableRowClickHandler} product={product} key={product.id}></ProductTableRow> )
-
+		const rows = this.createRows(this.sortProducts(this.props.products))
 		return(
 			<Table striped bordered>
 				<thead>
 					<tr>
-						<ProductTableHead column="Name"></ProductTableHead>
-						<ProductTableHead column="Price"></ProductTableHead>
+						<ProductTableHead sortProductsHandler={this.props.sortProductsHandler} sort={this.props.sort} column="Name"></ProductTableHead>
+						<ProductTableHead sortProductsHandler={this.props.sortProductsHandler} sort={this.props.sort} column="Price"></ProductTableHead>
 					</tr>
 				</thead>
 				<tbody>{rows}</tbody>
