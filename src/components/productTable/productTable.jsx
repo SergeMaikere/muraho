@@ -9,6 +9,7 @@ class ProductTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.sortProducts = this.sortProducts.bind(this);
+		this.filterProductsByIsInStock = this.filterProductsByIsInStock.bind(this);
 		this.createRows = this.createRows.bind(this);
 	}
 
@@ -22,6 +23,11 @@ class ProductTable extends React.Component {
 		return products;
 	}
 
+	filterProductsByIsInStock (products) {
+		if (!this.props.isInStock) return products;
+		return products.filter( product => product.stocked == true );
+	}
+
 	createRows (products) {
 		return products.map( 
 			product => <ProductTableRow 
@@ -32,8 +38,8 @@ class ProductTable extends React.Component {
 	}
 
 	render() {
+		const rows = this.createRows(this.sortProducts(this.filterProductsByIsInStock(this.props.products)));
 
-		const rows = this.createRows(this.sortProducts(this.props.products))
 		return(
 			<Table striped bordered>
 				<thead>
