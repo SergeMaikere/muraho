@@ -24,17 +24,21 @@ class Products extends React.Component {
 
 		this.state = { 
 			products: Object.keys(PRODUCTS).map( pid => PRODUCTS[pid] ),
-			sort: { by: 'name', direction: 'ascending'}
+			sort: { by: 'name', direction: 'ascending'},
+			isInStock: false,
+			filterText: ''
 		};
 
 		this.removeProduct = this.removeProduct.bind(this);
 		this.addProduct = this.addProduct.bind(this);
 		this.sortProducts = this.sortProducts.bind(this);
+		this.setIsInStock = this.setIsInStock.bind(this);
+		this.setFilterText = this.setFilterText.bind(this);
 	}
 
 	removeProduct (id) {
 		this.setState(
-			(prevState, props) => ( {products: prevState.products.filter(product => product.id != id)} )
+			(prevState, props) => ( {products: prevState.products.filter(product => product.id !== id)} )
 		)
 	}
 
@@ -53,6 +57,14 @@ class Products extends React.Component {
 		this.setState( (prevState, props) => ({ ...prevState, sort: { by: sorting, direction: direction } }) )
 	}
 
+	setIsInStock (bool) {
+		this.setState( (prevState, props) => ( {...prevState, isInStock: bool} ) )
+	}
+
+	setFilterText (str) {
+		this.setState( (prevState, props) => ({...prevState, filterText: str}) );
+	}
+
 	render() {
 		return(
 			<Container fluid="md">
@@ -62,12 +74,19 @@ class Products extends React.Component {
 							<Card.Body>
 								<Card.Title>All your products !</Card.Title>
 
-								<Filters></Filters>
+								<Filters 
+									filterText={this.state.filterText}
+									filterTextHandler={this.setFilterText}
+									isInStock={this.state.isInStock} 
+									isInStockHandler={this.setIsInStock}>
+								</Filters>
 								<ProductTable 
-									products={ this.state.products }
+									products={this.state.products}
 									productTableRowClickHandler={this.removeProduct}
 									sortProductsHandler={this.sortProducts}
-									sort={this.state.sort}>
+									sort={this.state.sort}
+									isInStock={this.state.isInStock}
+									filterText={this.state.filterText}>
 								</ProductTable>
 							</Card.Body>
 						</Card>
