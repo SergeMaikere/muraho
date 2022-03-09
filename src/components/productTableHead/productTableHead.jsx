@@ -16,8 +16,8 @@ class ProductTableHead extends React.Component {
 	}
 
 	highlightCurrentSort (direction) {
-		if (this.props.column.toLowerCase() != this.props.sort.by) return '';
-		return this.props.sort.direction == direction ? 'ProductTableHead-current' : '';
+		if (this.props.column.toLowerCase() !== this.props.sort.by) return '';
+		return this.props.sort.direction === direction ? 'ProductTableHead-current' : '';
 	}
 
 	render() {

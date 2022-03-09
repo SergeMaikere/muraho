@@ -13,7 +13,7 @@ class Header extends React.Component {
 					<p>Une mauvaise herbe est une plante dont on n'a pas encore trouvé les vertus</p>
 				</blockquote>
 				<figcaption className="blockquote-footer">Snoop Doggy Dog</figcaption>
-	  			<button className="btn btn-primary btn-lg" href="#" role="button">En savoir plus</button>
+	  			<button className="btn btn-primary btn-lg" href="#">En savoir plus</button>
 			</Container>
 		)
 	}

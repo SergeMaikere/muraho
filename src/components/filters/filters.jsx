@@ -7,6 +7,7 @@ class Filters extends React.Component {
 		super(props);
 
 		this.isInStockHandler = this.isInStockHandler.bind(this);
+		this.textSearchHandler = this.textSearchHandler.bind(this);
 	}
 
 	isInStockHandler (event) {
@@ -14,7 +15,7 @@ class Filters extends React.Component {
 	}
 
 	textSearchHandler (event) {
-		console.log(event.target.value)
+		this.props.filterTextHandler(event.target.value);
 	}
 
 	render() {
