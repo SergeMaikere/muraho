@@ -26,12 +26,24 @@ class Products extends React.Component {
 			products: Object.keys(PRODUCTS).map( pid => PRODUCTS[pid] ),
 			sort: { by: 'name', direction: 'ascending'},
 			isInStock: false,
-			filterText: ''
+			filterText: '',
+			formProduct: {
+				id: 0,
+				name: '',
+				category: '',
+				price: '',
+				stocked: false
+				
+			}
 		};
 
 		this.removeProduct = this.removeProduct.bind(this);
 		this.addProduct = this.addProduct.bind(this);
+		this.editProduct = this.editProduct.bind(this);
 		this.sortProducts = this.sortProducts.bind(this);
+		this.setEditProductState = this.setEditProductState.bind(this);
+		this.updateFormState = this.updateFormState.bind(this);
+		this.emptyFormProduct = this.emptyFormProduct.bind(this);
 		this.setIsInStock = this.setIsInStock.bind(this);
 		this.setFilterText = this.setFilterText.bind(this);
 	}
@@ -53,23 +65,58 @@ class Products extends React.Component {
 		)
 	}
 
+	editProduct (product) {
+		this.setState(
+			(prevState, props) => ( {products: prevState.products.map( prod => prod.id !== product.id ? prod : product )} )
+		)
+	}
+
+	setEditProductState (product) {
+		this.setState( {formProduct: product} );
+	}
+
+	updateFormState (event) {
+		this.setState(
+			(prevState, props) => {
+				const temp = prevState;
+				temp.formProduct[event.target.id] = event.target.id === 'stocked' ? event.target.checked : event.target.value;
+				return temp;
+			}
+		)
+	}
+
+	emptyFormProduct () {
+		this.setState(
+			{
+				formProduct: {
+					id: 0,
+					name: '',
+					category: '',
+					price: '',
+					stocked: false
+					
+				}
+			}
+		)
+	}
+
 	sortProducts (sorting, direction) {
-		this.setState( (prevState, props) => ({ ...prevState, sort: { by: sorting, direction: direction } }) )
+		this.setState( (prevState, props) => ({sort: { by: sorting, direction: direction }}) )
 	}
 
 	setIsInStock (bool) {
-		this.setState( (prevState, props) => ( {...prevState, isInStock: bool} ) )
+		this.setState( (prevState, props) => ({isInStock: bool}) )
 	}
 
 	setFilterText (str) {
-		this.setState( (prevState, props) => ({...prevState, filterText: str}) );
+		this.setState( (prevState, props) => ({filterText: str}) );
 	}
 
 	render() {
 		return(
 			<Container fluid="md">
 				<Row className='my-5'>
-					<Col sm={5}>
+					<Col sm={7}>
 						<Card border="light">
 							<Card.Body>
 								<Card.Title>All your products !</Card.Title>
@@ -83,6 +130,7 @@ class Products extends React.Component {
 								<ProductTable 
 									products={this.state.products}
 									productTableRowClickHandler={this.removeProduct}
+									editProductTableRowHandler={this.setEditProductState}
 									sortProductsHandler={this.sortProducts}
 									sort={this.state.sort}
 									isInStock={this.state.isInStock}
@@ -91,8 +139,15 @@ class Products extends React.Component {
 							</Card.Body>
 						</Card>
 					</Col>
-					<Col sm={4}><ProductForm productFormClickHandler={this.addProduct}></ProductForm></Col>
-					<Col sm={3}></Col>
+					<Col sm={5}>
+						<ProductForm 
+							productForm={this.state.formProduct}
+							addProductHandler={this.addProduct}
+							updateProductState={this.updateFormState}
+							editProductHandler={this.editProduct}
+							emptyForm={this.emptyFormProduct}>
+						</ProductForm>
+					</Col>
 				</Row>
 			</Container>
 		)
