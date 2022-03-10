@@ -66,7 +66,7 @@ class ProductForm extends React.Component {
 								onChange={this.updateForm}>
 							</Form.Check>
 						</Form.Group>
-						<Button type="submit">Save</Button>
+						<Button type="submit">{'Save' + (this.props.productForm.id === 0 ? '' : ' changes')}</Button>
 					</Form>
 				</Card.Body>
 			</Card>
