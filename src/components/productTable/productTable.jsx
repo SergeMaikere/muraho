@@ -40,6 +40,7 @@ class ProductTable extends React.Component {
 		return products.map( 
 			product => <ProductTableRow 
 							productTableRowClickHandler={this.props.productTableRowClickHandler} 
+							editProductTableRowHandler={this.props.editProductTableRowHandler}
 							product={product} key={product.id}>
 						</ProductTableRow>
 		) 

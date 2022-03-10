@@ -1,6 +1,8 @@
 import React from 'react';
 import './productTableRow.css'
 import Button from 'react-bootstrap/Button';
+import { XCircleFill } from 'react-bootstrap-icons';
+import { PencilSquare } from 'react-bootstrap-icons';
 
 
 class ProductTableRow extends React.Component {
@@ -9,10 +11,15 @@ class ProductTableRow extends React.Component {
 		super(props);
 
 		this.destroy = this.destroy.bind(this);
+		this.edit = this.edit.bind(this);
 	}
 
 	destroy () {
 		this.props.productTableRowClickHandler(this.props.product.id) 
+	}
+
+	edit () {
+		this.props.editProductTableRowHandler(this.props.product);
 	}
 
 	render() {
@@ -27,7 +34,8 @@ class ProductTableRow extends React.Component {
 					<span>&#36;{this.props.product.price}</span>
 				</td>
 				<td>
-		           	<Button variant='light' onClick={this.destroy} style={{color: 'red'}}>x</Button>
+					<XCircleFill onClick={this.destroy} style={{cursor: 'pointer'}}/>
+					<PencilSquare onClick={this.edit} style={{cursor: 'pointer'}}/>
 		        </td>
 			</tr>
 		)
