@@ -19,7 +19,7 @@ class ProductTableRow extends React.Component {
 	}
 
 	edit () {
-		this.props.editProductTableRowHandler(this.props.product);
+		this.props.editProductTableRowHandler( {...this.props.product} );
 	}
 
 	render() {

@@ -67,10 +67,7 @@ class Products extends React.Component {
 
 	editProduct (product) {
 		this.setState(
-			(prevState, props) => {
-				const temp = prevState.products.map( prod => prod.id !== product.id ? prod : product );
-				return temp;
-			}
+			(prevState, props) => ( {products: prevState.products.map( prod => prod.id !== product.id ? prod : product )} )
 		)
 	}
 
@@ -104,15 +101,15 @@ class Products extends React.Component {
 	}
 
 	sortProducts (sorting, direction) {
-		this.setState( (prevState, props) => ({ ...prevState, sort: { by: sorting, direction: direction } }) )
+		this.setState( (prevState, props) => ({sort: { by: sorting, direction: direction }}) )
 	}
 
 	setIsInStock (bool) {
-		this.setState( (prevState, props) => ( {...prevState, isInStock: bool} ) )
+		this.setState( (prevState, props) => ({isInStock: bool}) )
 	}
 
 	setFilterText (str) {
-		this.setState( (prevState, props) => ({...prevState, filterText: str}) );
+		this.setState( (prevState, props) => ({filterText: str}) );
 	}
 
 	render() {
@@ -145,7 +142,7 @@ class Products extends React.Component {
 					<Col sm={5}>
 						<ProductForm 
 							productForm={this.state.formProduct}
-							productFormClickHandler={this.addProduct}
+							addProductHandler={this.addProduct}
 							updateProductState={this.updateFormState}
 							editProductHandler={this.editProduct}
 							emptyForm={this.emptyFormProduct}>

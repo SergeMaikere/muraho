@@ -19,7 +19,7 @@ class ProductForm extends React.Component {
 
 	handleSubmit (event) {
 		event.preventDefault();
-		this.props.productForm.id !== 0 ? this.props.editProductHandler(this.props.productForm) : this.props.productFormClickHandler(this.props.productForm);
+		this.props.productForm.id !== 0 ? this.props.editProductHandler(this.props.productForm) : this.props.addProductHandler(this.props.productForm);
 		this.props.emptyForm();
 	}
 
